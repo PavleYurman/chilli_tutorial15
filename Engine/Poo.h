@@ -15,7 +15,7 @@ private:
 	float y;
 	float vx;
 	float vy;
-	static constexpr int width = 24;
-	static constexpr int height = 24;
+	static constexpr float width = 24;
+	static constexpr float height = 24;
 	bool initialized = false;
 };
