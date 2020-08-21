@@ -316,6 +316,154 @@ void Graphics::PutPixel( int x,int y,Color c )
 	pSysBuffer[Graphics::ScreenWidth * y + x] = c;
 }
 
+void Graphics::DrawTriangle(int x, int y, int r, Color c)
+{
+	// draw a simple triangle	
+	int xs = x;
+	for (int y0 = y + r; y0 > y; y0--)
+	{		
+		for (int x0 = xs; x0 < x + r; x0++)
+		{
+			PutPixel(x0, y0, c);
+		}		
+		xs++;
+	}
+
+}
+
+void Graphics::DrawTriangle0(int x, int y, int r, Color c)
+{
+	// draw a simple triangle	
+
+
+
+}
+
+void Graphics::DrawLine(int x, int y, int width, Color c)
+{
+}
+
+void Graphics::DrawCircle(int x, int y, int r, Color c)
+{
+	// decomposition of elements for drawing 1/4 of a circle
+	/*
+		definicije:
+			polmer r predstavlja hipotenzo: ideja da bi izrisal vse tocke, ki predstavljajo
+			velikost hipotenuze
+			izracun tock:
+				postavi se na sredino: x_mid, y_mid
+				pojdi kot bi izrisal kvadrat
+					doloci x_kv, y_kv:
+						y_kv naj gre od y_mid do y_mid - r(y)
+						tko da zmanjsuj y_kv--
+						x_kv naj gre od x_mid do x_mid + r
+						tako da povecuj x_kv++
+					vsakic, ko dolocis tocko x_kv, y_kv:
+						izracunaj hipotenzo/polmer h_xy iz teh dveh komponent: h_xy = sqrt(x_kvOn2 + y_kvOn2)
+						ce je h_xy <= pomeru/hipotenuzi r
+							izrisi tocko na poziciji x_kv, y_kv
+						
+			
+				
+		polmer kroga je enak hipotenuzi
+		izris
+		   - za dx komponento je od x_mid + r do x_mid; dx je sprememba x
+			 ta komponenta oznacuje kateto a, ki se tako zmanjsuje z zmansevanjem dx
+			 ta komponenta oznacuje kateto a, ki se tako zmanjsuje z zmansevanjem dx
+		   - za dy komponento je od y_mid do y; dy sprememba y komponente
+			 ta komponenta oznacuje kateto b, ki pa se povecuje z zmanjsevanjem dy		   
+		   + dobi dolzini a in b z izdracunom:
+				za a; a = trenutni dx - x_mid;
+				za b; b = trenutni dy(na zacetku je enak y_mid) - y;
+		   - tam kjer sta dolzini a kvadrat + b kvadrat pod korenom manjsa ali enaka r(hipotenuzi), izrisi pixel
+	*/
+	// take position on the midle
+	int x_mid = x + r;
+	int y_mid = y + r;
+	// hypotenuze equals radius
+	double h = r;
+	// determine all points x_sq, y_sq
+	for (int y_sq = y_mid; y_sq >= y; y_sq--)
+	{
+		for (int x_sq = x_mid; x_sq <= x_mid + r; x_sq++)
+		{
+			// compute distance for a and b sides of triangle
+			double b = y_mid - y_sq;
+			double a = x_sq - x_mid;
+			// compute new hypothenuze
+			b = b * b;
+			a = a * a;			
+			double h_xy = sqrt(a + b);
+			if (h_xy <= h)
+			{
+				PutPixel(x_sq, y_sq, c);
+			}
+		}
+		for (int x_sq = x_mid; x_sq >= x_mid - r; x_sq--)
+		{
+			// compute distance for a and b sides of triangle
+			double b = y_mid - y_sq;
+			double a = abs(x_sq - x_mid);
+			// compute new hypothenuze
+			b = b * b;
+			a = a * a;			
+			double h_xy = sqrt(a + b);
+			if (h_xy <= h)
+			{
+				PutPixel(x_sq, y_sq, c);
+			}
+		}
+	}
+	for (int y_sq = y_mid; y_sq <= y_mid + r; y_sq++)
+	{
+		for (int x_sq = x_mid; x_sq <= x_mid + r; x_sq++)
+		{
+			// compute distance for a and b sides of triangle
+			double b = abs(y_mid - y_sq);
+			double a = x_sq - x_mid;
+			// compute new hypothenuze
+			b = b * b;
+			a = a * a;			
+			double h_xy = sqrt(a + b);
+			if (h_xy <= h)
+			{
+				PutPixel(x_sq, y_sq, c);
+			}
+		}
+		//3rd quarter of the circle
+		for (int x_sq = x_mid; x_sq >= x_mid - r; x_sq--)
+		{
+			// compute distance for a and b sides of triangle
+			double b = abs(y_mid - y_sq);
+			double a = abs(x_sq - x_mid);
+			// compute new hypothenuze
+			b = b * b;
+			a = a * a;			
+			double h_xy = sqrt(a + b);
+			if (h_xy <= h)
+			{
+				PutPixel(x_sq, y_sq, c);
+			}
+		}
+	}
+
+}
+
+void Graphics::DrawParalelogram(int x, int y, int r, Color c)
+{
+	// draw a simple triangle	
+	int xs = x;
+	for (int y0 = y + r; y0 > y; y0--)
+	{
+		for (int x0 = xs; x0 < xs + r; x0++)
+		{
+			PutPixel(x0, y0, c);
+		}
+		xs--;
+	}
+
+}
+
 void Graphics::DrawRect( int x0,int y0,int x1,int y1,Color c )
 {
 	if( x0 > x1 )
@@ -332,6 +480,32 @@ void Graphics::DrawRect( int x0,int y0,int x1,int y1,Color c )
 		for( int x = x0; x < x1; ++x )
 		{
 			PutPixel( x,y,c );
+		}
+	}
+}
+void Graphics::DrawCircle0(int x0, int y0, int x1, int y1, int r, Color c)
+{
+	if( x0 > x1 )
+	{
+		std::swap( x0,x1 );
+	}
+	if( y0 > y1 )
+	{
+		std::swap( y0,y1 );
+	}
+
+	int xm = x0 + r;
+	int ym = y0 + r;
+
+	for( int y = xm; y < y1; ++y )
+	{
+		for( int x = ym; x < x1; ++x )
+		{
+			if (x <= r + x && x >= r + x)
+			{
+				PutPixel(x, y, c);
+			}
+			
 		}
 	}
 }

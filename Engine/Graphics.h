@@ -56,6 +56,12 @@ public:
 		PutPixel( x,y,{ unsigned char( r ),unsigned char( g ),unsigned char( b ) } );
 	}
 	void PutPixel( int x,int y,Color c );
+	void DrawCircle(int x, int y, int r, Color c);
+	void DrawCircle0(int x0, int y0, int x1, int y1, int r, Color c);
+	void DrawTriangle(int x, int y, int width, Color c);
+	void DrawTriangle0(int x, int y, int width, Color c);
+	void DrawLine(int x, int y, int width, Color c);	
+	void DrawParalelogram(int x, int y, int r, Color c);
 	void DrawRect( int x0,int y0,int x1,int y1,Color c );
 	void DrawRectDim( int x0,int y0,int width,int height,Color c )
 	{

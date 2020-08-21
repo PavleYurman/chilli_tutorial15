@@ -33,6 +33,7 @@ Game::Game( MainWindow& wnd )
 	meter( 20,20 )
 {
 	std::uniform_real_distribution<float> vDist( -2.5f, 2.5f );
+	//std::uniform_real_distribution<float> vDist( -0.5f, 0.5f );
 	for( int i = 0; i < nPoo; ++i )
 	{
 		poos[i].Init( xDist( rng ), yDist( rng ),vDist( rng ), vDist( rng ) ); // continue at 11:00
@@ -28430,6 +28431,11 @@ void Game::DrawTitleScreen( int x,int y )
 
 void Game::ComposeFrame()
 {
+	//gfx.DrawTriangle(200, 200, 100, Colors::Blue);
+	//gfx.DrawParalelogram(100, 450, 100, Colors::Blue);
+	//gfx.DrawTriangle0(100, 450, 100, Colors::Blue);
+	gfx.DrawCircle(100, 350, 100, Colors::Green);
+
 	if( !isStarted )
 	{
 		DrawTitleScreen( 325,211 );
