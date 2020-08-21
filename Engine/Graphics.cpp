@@ -387,6 +387,7 @@ void Graphics::DrawCircle(int x, int y, int r, Color c)
 	{
 		for (int x_sq = x_mid; x_sq <= x_mid + r; x_sq++)
 		{
+			// 1st quarter of the circle
 			// compute distance for a and b sides of triangle
 			double b = y_mid - y_sq;
 			double a = x_sq - x_mid;
@@ -401,6 +402,7 @@ void Graphics::DrawCircle(int x, int y, int r, Color c)
 		}
 		for (int x_sq = x_mid; x_sq >= x_mid - r; x_sq--)
 		{
+			// 2nd quarter of the circle
 			// compute distance for a and b sides of triangle
 			double b = y_mid - y_sq;
 			double a = abs(x_sq - x_mid);
@@ -414,6 +416,7 @@ void Graphics::DrawCircle(int x, int y, int r, Color c)
 			}
 		}
 	}
+	// 4th quarter of the circle
 	for (int y_sq = y_mid; y_sq <= y_mid + r; y_sq++)
 	{
 		for (int x_sq = x_mid; x_sq <= x_mid + r; x_sq++)
