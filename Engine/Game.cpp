@@ -28430,6 +28430,7 @@ void Game::DrawTitleScreen( int x,int y )
 
 void Game::ComposeFrame()
 {
+	gfx.DrawCircle(150, 150, 100, Colors::Green);
 	if( !isStarted )
 	{
 		DrawTitleScreen( 325,211 );

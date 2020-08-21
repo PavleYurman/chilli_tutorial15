@@ -240,6 +240,24 @@ Graphics::Graphics( HWNDKey& key )
 		_aligned_malloc( sizeof( Color ) * Graphics::ScreenWidth * Graphics::ScreenHeight,16u ) );
 }
 
+void Graphics::DrawCircle(int x, int y, int radius, Color c)
+{
+	// radius squared
+	int rad_sq = radius * radius;
+	for (int y_com = y - radius; y_com < y + radius + 1; y_com++) // a small correction by + 1
+	{
+		for (int x_com = x - radius; x_com < x + radius + 1; x_com++) // a small correction by + 1
+		{
+			int x_diff = x - x_com;
+			int y_diff = y - y_com;
+			if (x_diff * x_diff + y_diff * y_diff <= rad_sq)
+			{
+				PutPixel(x_com, y_com, c);
+			}
+		}
+	}
+}
+
 Graphics::~Graphics()
 {
 	// free sysbuffer memory (aligned free)
@@ -335,6 +353,8 @@ void Graphics::DrawRect( int x0,int y0,int x1,int y1,Color c )
 		}
 	}
 }
+
+
 
 //////////////////////////////////////////////////
 //           Graphics Exception
