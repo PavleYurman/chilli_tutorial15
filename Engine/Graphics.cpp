@@ -389,13 +389,10 @@ void Graphics::DrawCircle(int x, int y, int r, Color c)
 		{
 			// 1st quarter of the circle
 			// compute distance for a and b sides of triangle
-			double b = y_mid - y_sq;
-			double a = x_sq - x_mid;
-			// compute new hypothenuze
-			b = b * b;
-			a = a * a;			
-			double h_xy = sqrt(a + b);
-			if (h_xy <= h)
+			int b = y_mid - y_sq;
+			int a = x_sq - x_mid;
+			// check if new hypothenuze less than or equal to actual radius of circle
+			if (a*a + b*b <= h * h) // no need to use squirting operation
 			{
 				PutPixel(x_sq, y_sq, c);
 			}
@@ -404,13 +401,9 @@ void Graphics::DrawCircle(int x, int y, int r, Color c)
 		{
 			// 2nd quarter of the circle
 			// compute distance for a and b sides of triangle
-			double b = y_mid - y_sq;
-			double a = abs(x_sq - x_mid);
-			// compute new hypothenuze
-			b = b * b;
-			a = a * a;			
-			double h_xy = sqrt(a + b);
-			if (h_xy <= h)
+			int b = y_mid - y_sq;
+			int a = abs(x_sq - x_mid);		
+			if (a*a + b*b <= h*h)
 			{
 				PutPixel(x_sq, y_sq, c);
 			}
@@ -422,13 +415,10 @@ void Graphics::DrawCircle(int x, int y, int r, Color c)
 		for (int x_sq = x_mid; x_sq <= x_mid + r; x_sq++)
 		{
 			// compute distance for a and b sides of triangle
-			double b = abs(y_mid - y_sq);
-			double a = x_sq - x_mid;
-			// compute new hypothenuze
-			b = b * b;
-			a = a * a;			
-			double h_xy = sqrt(a + b);
-			if (h_xy <= h)
+			int b = abs(y_mid - y_sq);
+			int a = x_sq - x_mid;
+			// compute new hypothenuze			
+			if (a * a + b * b <= h * h)
 			{
 				PutPixel(x_sq, y_sq, c);
 			}
@@ -437,13 +427,9 @@ void Graphics::DrawCircle(int x, int y, int r, Color c)
 		for (int x_sq = x_mid; x_sq >= x_mid - r; x_sq--)
 		{
 			// compute distance for a and b sides of triangle
-			double b = abs(y_mid - y_sq);
-			double a = abs(x_sq - x_mid);
-			// compute new hypothenuze
-			b = b * b;
-			a = a * a;			
-			double h_xy = sqrt(a + b);
-			if (h_xy <= h)
+			int b = abs(y_mid - y_sq);
+			int a = abs(x_sq - x_mid);			
+			if (a * a + b * b <= h * h)
 			{
 				PutPixel(x_sq, y_sq, c);
 			}
